@@ -6,7 +6,6 @@ from scipy.misc import imread
 from caffe_classes import class_names
 from alexnet import AlexNet
 
-
 # placeholders
 x = tf.placeholder(tf.float32, (None, 227, 227, 3))
 
