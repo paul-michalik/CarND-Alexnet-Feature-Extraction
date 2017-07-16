@@ -8,15 +8,19 @@ from alexnet import AlexNet
 
 from keras.datasets import cifar10
 
-(X_train, y_train), (X_test, y_test) = cifar10.load_data()
+def limit_size(X_data, y_data, max_size):
+    real_max_size = min(max_size, np.shape(X_data)[0])
+    return X_data[0:real_max_size], y_data[0:real_max_size]
+               
+(X_train, y_train), (X_val, y_val) = cifar10.load_data()
 
+X_train, y_train = limit_size(X_train, y_train, 3000)
+X_val, y_val = limit_size(X_val, y_val, 1000)
 
 # y_train.shape is 2d, (50000, 1). While Keras is smart enough to handle this
 # it's a good idea to flatten the array.
 y_train = y_train.reshape(-1)
-y_test = y_test.reshape(-1)
-
-X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=0.3, random_state=42, stratify = y_train)
+y_val = y_val.reshape(-1)
 
 # TODO: Define placeholders and resize operation.
 sign_names = pd.read_csv('signnames.csv')
